@@ -18,7 +18,7 @@ function App() {
 
   const verificar = async () => {
     try {
-      const res = await axios.post("http://127.0.0.1:8000/verificar", { izquierda, derecha });
+      const res = await axios.post("https://math-checker-backend.onrender.com/verificar", { izquierda, derecha });
       setResultado(res.data);
     } catch {
       setResultado({ mensaje: "⚠️ Error al conectar con el servidor" });
@@ -27,7 +27,7 @@ function App() {
 
   const resolver = async () => {
     try {
-      const res = await axios.post("http://127.0.0.1:8000/resolver", { ecuacion, incognita });
+      const res = await axios.post("https://math-checker-backend.onrender.com/resolver", { ecuacion, incognita });
       setSolucion(res.data);
     } catch {
       setSolucion({ mensaje: "⚠️ Error al conectar con el servidor" });
@@ -36,7 +36,7 @@ function App() {
 
 const verificarProceso = async () => {
     try {
-      const res = await axios.post("http://127.0.0.1:8000/verificar-proceso", {
+      const res = await axios.post("https://math-checker-backend.onrender.com/verificar-proceso", {
         pasos: proceso,
         incognita: incognitaProceso
       });

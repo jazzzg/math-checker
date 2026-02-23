@@ -14,7 +14,7 @@ const theme = {
   text: "#3d2000",
   muted: "#8a6a40",
   error: "#c0392b",
-  success: "#8a5c2a",
+  success: "#e8d5b0",
 };
 
 const styles = {

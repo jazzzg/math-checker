@@ -160,14 +160,14 @@ const styles = {
     marginTop: 16,
     padding: 16,
     borderRadius: 12,
-    backgroundColor: ok ? "#d14e4e" : "#fdf0e0",
+    backgroundColor: ok ? "#f5f0e0" : "#fdf0e0",
     border: `1.5px solid ${ok ? "#8a5c2a" : theme.border}`,
   }),
   stepBox: (ok) => ({
     padding: "12px 16px",
     borderRadius: 10,
     marginBottom: 8,
-    backgroundColor: ok ? "#d4b896" : "#fdf0e0",
+    backgroundColor: ok ? "#f5f0e0" : "#fdf0e0",
     borderLeft: `4px solid ${ok ? "#8a5c2a" : theme.accent}`,
   }),
   pre: {

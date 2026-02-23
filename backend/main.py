@@ -41,7 +41,7 @@ def verificar(expr: Expresion):
         if diferencia == 0:
             return {
                 "correcto": True,
-                "mensaje": "✅ La ecuación es correcta",
+                "mensaje": "✔︎ La ecuación es correcta",
                 "resultado_izquierda": str(izq),
                 "resultado_derecha": str(der)
             }
@@ -74,7 +74,7 @@ def resolver(data: Ecuacion):
 
         return {
             "exito": True,
-            "mensaje": "✅ Solución encontrada",
+            "mensaje": "✔︎ Solución encontrada",
             "soluciones": [str(s) for s in soluciones]
         }
     except SympifyError:
@@ -127,7 +127,7 @@ def verificar_proceso(data: Proceso):
 
             if i == 0:
                 paso_correcto = True
-                mensaje = "✅ Paso inicial registrado"
+                mensaje = "✔︎ Paso inicial registrado"
                 detalle = ""
             else:
                 izq_ant = sympify(resultados[i-1]["izq_str"])
@@ -147,7 +147,7 @@ def verificar_proceso(data: Proceso):
                         paso_correcto = diferencia == 0
 
                     if paso_correcto:
-                        mensaje = "✅ Paso correcto"
+                        mensaje = "✔︎ Paso correcto"
                         detalle = ""
                     else:
                         mensaje = "❌ Este paso tiene un error"
@@ -229,7 +229,7 @@ def verificar_proceso(data: Proceso):
     return {
         "resultados": resultados,
         "todos_correctos": todos_correctos,
-        "resumen": "✅ Todo el proceso es correcto" if todos_correctos else "❌ Hay errores en el proceso",
+        "resumen": "✔︎ Todo el proceso es correcto" if todos_correctos else "❌ Hay errores en el proceso",
         "soluciones_finales": [str(s) for s in soluciones]
     }
   

@@ -6,15 +6,15 @@ import "katex/dist/katex.min.css";
 const API = "https://math-checker-backend.onrender.com";
 
 const theme = {
-  bg: "#FFDEAD",
-  surface: "#f5c898",
-  border: "#B5927F",
-  accent: "#DC6601",
-  accentDark: "#b85200",
-  text: "#873600",
-  muted: "#B5927F",
-  error: "#873600",
-  success: "#5a6e00",
+  bg: "#f5f0e0",
+  surface: "#ffffff",
+  border: "#e8d5b0",
+  accent: "#c85e0a",
+  accentLight: "#f97316",
+  text: "#3d2000",
+  muted: "#8a6a40",
+  error: "#c0392b",
+  success: "#4a7c00",
 };
 
 const styles = {
@@ -22,69 +22,94 @@ const styles = {
     minHeight: "100vh",
     backgroundColor: theme.bg,
     color: theme.text,
-    fontFamily: "'Times New Roman', Times, serif",
+    fontFamily: "'Georgia', 'Times New Roman', serif",
     padding: "0 0 80px 0",
   },
   header: {
+    backgroundColor: "#ffffff",
     borderBottom: `1px solid ${theme.border}`,
-    padding: "32px 40px",
+    padding: "16px 40px",
     display: "flex",
     alignItems: "center",
-    gap: 16,
+    gap: 14,
+    boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
   },
-  logo: {
-    width: 40,
-    height: 40,
+  logoCircle: {
+    width: 48,
+    height: 48,
     backgroundColor: theme.accent,
-    borderRadius: 8,
+    borderRadius: "50%",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    fontSize: 20,
-    fontWeight: "bold",
+    fontSize: 22,
     color: "#fff",
+    fontWeight: "bold",
   },
   title: {
     fontSize: 22,
-    fontWeight: "700",
-    letterSpacing: "-0.5px",
+    fontWeight: "800",
     color: theme.text,
     margin: 0,
+    letterSpacing: "-0.3px",
   },
   subtitle: {
     fontSize: 12,
     color: theme.muted,
     margin: 0,
-    letterSpacing: "0.5px",
-    textTransform: "uppercase",
+  },
+  hero: {
+    backgroundColor: theme.bg,
+    padding: "48px 40px 32px",
+    textAlign: "center",
+  },
+  heroTitle: {
+    fontSize: 32,
+    fontWeight: "800",
+    color: theme.text,
+    marginBottom: 8,
+  },
+  heroSub: {
+    fontSize: 15,
+    color: theme.muted,
+    maxWidth: 500,
+    margin: "0 auto",
   },
   main: {
-    maxWidth: 700,
+    maxWidth: 720,
     margin: "0 auto",
-    padding: "48px 24px 0",
+    padding: "32px 24px 0",
   },
   card: {
     backgroundColor: theme.surface,
-    border: `1px solid ${theme.border}`,
-    borderRadius: 12,
+    border: `1.5px solid ${theme.border}`,
+    borderRadius: 16,
     padding: 28,
     marginBottom: 24,
+    boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
   },
   cardTitle: {
-    fontSize: 13,
-    fontWeight: "600",
-    letterSpacing: "1.5px",
-    textTransform: "uppercase",
+    fontSize: 16,
+    fontWeight: "700",
     color: theme.accent,
     marginBottom: 20,
     display: "flex",
     alignItems: "center",
     gap: 8,
   },
+  cardIcon: {
+    width: 32,
+    height: 32,
+    backgroundColor: "#fff3e0",
+    borderRadius: 8,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: 16,
+  },
   label: {
-    fontSize: 11,
-    letterSpacing: "1px",
-    textTransform: "uppercase",
+    fontSize: 12,
+    fontWeight: "600",
     color: theme.muted,
     display: "block",
     marginBottom: 6,
@@ -94,11 +119,11 @@ const styles = {
     width: "100%",
     padding: "10px 14px",
     backgroundColor: theme.bg,
-    border: `1px solid ${theme.border}`,
-    borderRadius: 8,
+    border: `1.5px solid ${theme.border}`,
+    borderRadius: 10,
     color: theme.text,
     fontSize: 14,
-    fontFamily: "'Times New Roman', Times, serif",
+    fontFamily: "'Georgia', serif",
     marginBottom: 16,
     boxSizing: "border-box",
     outline: "none",
@@ -108,11 +133,11 @@ const styles = {
     width: "100%",
     padding: "10px 14px",
     backgroundColor: theme.bg,
-    border: `1px solid ${theme.border}`,
-    borderRadius: 8,
+    border: `1.5px solid ${theme.border}`,
+    borderRadius: 10,
     color: theme.text,
     fontSize: 14,
-    fontFamily: "'Times New Roman', Times, serif",
+    fontFamily: "'Georgia', serif",
     marginBottom: 16,
     boxSizing: "border-box",
     outline: "none",
@@ -120,41 +145,40 @@ const styles = {
     height: 160,
   },
   btn: (color) => ({
-    padding: "10px 22px",
+    padding: "11px 26px",
     backgroundColor: color,
     color: "#fff",
     border: "none",
-    borderRadius: 8,
-    fontSize: 12,
+    borderRadius: 30,
+    fontSize: 13,
     fontWeight: "700",
-    letterSpacing: "1px",
-    textTransform: "uppercase",
     cursor: "pointer",
-    fontFamily: "'Times New Roman', Times, serif",
+    fontFamily: "'Georgia', serif",
+    boxShadow: "0 3px 8px rgba(0,0,0,0.15)",
   }),
   resultBox: (ok) => ({
     marginTop: 16,
     padding: 16,
-    borderRadius: 8,
-    backgroundColor: ok ? "#e8f0c0" : "#f5d5b0",
-    border: `1px solid ${ok ? "#8a9a20" : theme.border}`,
+    borderRadius: 12,
+    backgroundColor: ok ? "#f0f7e0" : "#fdf0e0",
+    border: `1.5px solid ${ok ? "#8aaa40" : theme.border}`,
   }),
   stepBox: (ok) => ({
     padding: "12px 16px",
-    borderRadius: 8,
+    borderRadius: 10,
     marginBottom: 8,
-    backgroundColor: ok ? "#e8f0c0" : "#f5d5b0",
-    borderLeft: `3px solid ${ok ? "#5a6e00" : theme.accent}`,
+    backgroundColor: ok ? "#f0f7e0" : "#fdf0e0",
+    borderLeft: `4px solid ${ok ? theme.success : theme.accent}`,
   }),
   pre: {
     backgroundColor: theme.bg,
-    border: `1px solid ${theme.border}`,
-    borderRadius: 8,
+    border: `1.5px solid ${theme.border}`,
+    borderRadius: 10,
     padding: "12px 16px",
     fontSize: 13,
     color: theme.muted,
     marginBottom: 16,
-    fontFamily: "'Times New Roman', Times, serif",
+    fontFamily: "'Georgia', serif",
   }
 };
 
@@ -203,18 +227,30 @@ export default function App() {
 
   return (
     <div style={styles.app}>
+
+      {/* HEADER */}
       <div style={styles.header}>
-        <div style={styles.logo}>∑</div>
+        <div style={styles.logoCircle}>∑</div>
         <div>
           <h1 style={styles.title}>MathChecker</h1>
           <p style={styles.subtitle}>Verificador de cuentas matemáticas</p>
         </div>
       </div>
 
+      {/* HERO */}
+      <div style={styles.hero}>
+        <h2 style={styles.heroTitle}>Verificá tus cuentas matemáticas</h2>
+        <p style={styles.heroSub}>Ingresá ecuaciones, resolvé incógnitas y verificá procesos paso a paso con detección automática de errores.</p>
+      </div>
+
       <div style={styles.main}>
 
+        {/* VERIFICAR */}
         <div style={styles.card}>
-          <div style={styles.cardTitle}><span>01</span> Verificar ecuación</div>
+          <div style={styles.cardTitle}>
+            <div style={styles.cardIcon}>✅</div>
+            Verificar ecuación
+          </div>
           <label style={styles.label}>Lado izquierdo</label>
           <input style={styles.input} value={izquierda} onChange={e => setIzquierda(e.target.value)} placeholder="ej: log(100, 10)" />
           <label style={styles.label}>Lado derecho</label>
@@ -222,7 +258,7 @@ export default function App() {
           <button style={styles.btn(theme.accent)} onClick={verificar}>Verificar</button>
           {resultado && (
             <div style={styles.resultBox(resultado.correcto)}>
-              <p style={{ margin: 0, fontWeight: "bold", color: resultado.correcto ? "#5a6e00" : theme.error }}>{resultado.mensaje}</p>
+              <p style={{ margin: 0, fontWeight: "bold", color: resultado.correcto ? theme.success : theme.error }}>{resultado.mensaje}</p>
               {resultado.resultado_izquierda && <p style={{ margin: "8px 0 0", fontSize: 13 }}>Izquierdo: <InlineMath math={resultado.resultado_izquierda} /></p>}
               {resultado.resultado_derecha && <p style={{ margin: "4px 0 0", fontSize: 13 }}>Derecho: <InlineMath math={resultado.resultado_derecha} /></p>}
               {resultado.diferencia && <p style={{ margin: "4px 0 0", fontSize: 13, color: theme.error }}>Diferencia: <InlineMath math={resultado.diferencia} /></p>}
@@ -230,16 +266,20 @@ export default function App() {
           )}
         </div>
 
+        {/* RESOLVER */}
         <div style={styles.card}>
-          <div style={styles.cardTitle}><span>02</span> Resolver incógnita</div>
+          <div style={styles.cardTitle}>
+            <div style={styles.cardIcon}>🔍</div>
+            Resolver incógnita
+          </div>
           <label style={styles.label}>Ecuación igualada a 0</label>
           <input style={styles.input} value={ecuacion} onChange={e => setEcuacion(e.target.value)} placeholder="ej: x**2 - 4" />
           <label style={styles.label}>Incógnita</label>
           <input style={styles.input} value={incognita} onChange={e => setIncognita(e.target.value)} placeholder="ej: x" />
-          <button style={styles.btn(theme.text)} onClick={resolver}>Resolver</button>
+          <button style={styles.btn(theme.accentLight)} onClick={resolver}>Resolver</button>
           {solucion && (
             <div style={styles.resultBox(solucion.exito)}>
-              <p style={{ margin: 0, fontWeight: "bold", color: solucion.exito ? "#5a6e00" : theme.error }}>{solucion.mensaje}</p>
+              <p style={{ margin: 0, fontWeight: "bold", color: solucion.exito ? theme.success : theme.error }}>{solucion.mensaje}</p>
               {solucion.soluciones && solucion.soluciones.map((s, i) => (
                 <p key={i} style={{ margin: "8px 0 0", fontSize: 13 }}>{incognita} = <InlineMath math={s} /></p>
               ))}
@@ -247,8 +287,12 @@ export default function App() {
           )}
         </div>
 
+        {/* PROCESO */}
         <div style={styles.card}>
-          <div style={styles.cardTitle}><span>03</span> Verificar proceso completo</div>
+          <div style={styles.cardTitle}>
+            <div style={styles.cardIcon}>📋</div>
+            Verificar proceso completo
+          </div>
           <p style={{ fontSize: 12, color: theme.muted, marginBottom: 12 }}>Una línea por paso, formato: <code style={{ color: theme.accent }}>expresión = expresión</code></p>
           <pre style={styles.pre}>{`2*x + 4 = 10\n2*x = 10 - 4\n2*x = 6\nx = 3`}</pre>
           <label style={styles.label}>Proceso</label>
@@ -260,7 +304,7 @@ export default function App() {
           {resultadoProceso && (
             <div style={{ marginTop: 16 }}>
               <div style={styles.resultBox(resultadoProceso.todos_correctos)}>
-                <p style={{ margin: 0, fontWeight: "bold", fontSize: 15, color: resultadoProceso.todos_correctos ? "#5a6e00" : theme.error }}>{resultadoProceso.resumen}</p>
+                <p style={{ margin: 0, fontWeight: "bold", fontSize: 15, color: resultadoProceso.todos_correctos ? theme.success : theme.error }}>{resultadoProceso.resumen}</p>
                 {resultadoProceso.soluciones_finales && resultadoProceso.soluciones_finales.length > 0 && (
                   <p style={{ margin: "8px 0 0", fontSize: 13 }}>Solución: <InlineMath math={`${incognitaProceso} = ${resultadoProceso.soluciones_finales[0]}`} /></p>
                 )}
@@ -268,7 +312,7 @@ export default function App() {
               <div style={{ marginTop: 12 }}>
                 {resultadoProceso.resultados && resultadoProceso.resultados.map((r, i) => (
                   <div key={i} style={styles.stepBox(r.correcto)}>
-                    <p style={{ margin: 0, fontSize: 13, fontWeight: "600", color: r.correcto ? "#5a6e00" : theme.error }}>
+                    <p style={{ margin: 0, fontSize: 13, fontWeight: "600", color: r.correcto ? theme.success : theme.error }}>
                       Paso {r.paso}: <span style={{ color: theme.text }}>{r.linea}</span>
                     </p>
                     <p style={{ margin: "4px 0 0", fontSize: 12, color: theme.muted }}>{r.mensaje}</p>

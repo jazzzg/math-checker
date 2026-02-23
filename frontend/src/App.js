@@ -292,85 +292,108 @@ export default function App() {
         <p style={styles.heroSub}>Ingresá ecuaciones, resolvé incógnitas y verificá procesos paso a paso con detección automática de errores.</p>
       </div>
 
-      <div style={styles.main}>
+      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "32px 24px 0", display: "flex", gap: 24, alignItems: "flex-start" }}>
 
-        {/* VERIFICAR */}
-        <div style={styles.card}>
-          <div style={styles.cardTitle}>
-            <div style={styles.cardIcon}>✅</div>
-            Verificar ecuación
-          </div>
-          <label style={styles.label}>Lado izquierdo</label>
-          <input style={styles.input} value={izquierda} onChange={e => setIzquierda(e.target.value)} placeholder="ej: log(100, 10)" />
-          <label style={styles.label}>Lado derecho</label>
-          <input style={styles.input} value={derecha} onChange={e => setDerecha(e.target.value)} placeholder="ej: 2" />
-          <button style={styles.btn(theme.accent)} onClick={verificar}>Verificar</button>
-          {resultado && (
-            <div style={styles.resultBox(resultado.correcto)}>
-              <p style={{ margin: 0, fontWeight: "bold", color: resultado.correcto ? theme.success : theme.error }}>{resultado.mensaje}</p>
-              {resultado.resultado_izquierda && <p style={{ margin: "8px 0 0", fontSize: 13 }}>Izquierdo: <InlineMath math={resultado.resultado_izquierda} /></p>}
-              {resultado.resultado_derecha && <p style={{ margin: "4px 0 0", fontSize: 13 }}>Derecho: <InlineMath math={resultado.resultado_derecha} /></p>}
-              {resultado.diferencia && <p style={{ margin: "4px 0 0", fontSize: 13, color: theme.error }}>Diferencia: <InlineMath math={resultado.diferencia} /></p>}
+        {/* COLUMNA PRINCIPAL */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+
+          {/* VERIFICAR */}
+          <div style={styles.card}>
+            <div style={styles.cardTitle}>
+              <div style={styles.cardIcon}>✅</div>
+              Verificar ecuación
             </div>
-          )}
-        </div>
-
-        {/* RESOLVER */}
-        <div style={styles.card}>
-          <div style={styles.cardTitle}>
-            <div style={styles.cardIcon}>🔍</div>
-            Resolver incógnita
-          </div>
-          <label style={styles.label}>Ecuación igualada a 0</label>
-          <input style={styles.input} value={ecuacion} onChange={e => setEcuacion(e.target.value)} placeholder="ej: x**2 - 4" />
-          <label style={styles.label}>Incógnita</label>
-          <input style={styles.input} value={incognita} onChange={e => setIncognita(e.target.value)} placeholder="ej: x" />
-          <button style={styles.btn(theme.accentLight)} onClick={resolver}>Resolver</button>
-          {solucion && (
-            <div style={styles.resultBox(solucion.exito)}>
-              <p style={{ margin: 0, fontWeight: "bold", color: solucion.exito ? theme.success : theme.error }}>{solucion.mensaje}</p>
-              {solucion.soluciones && solucion.soluciones.map((s, i) => (
-                <p key={i} style={{ margin: "8px 0 0", fontSize: 13 }}>{incognita} = <InlineMath math={s} /></p>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* PROCESO */}
-        <div style={styles.card}>
-          <div style={styles.cardTitle}>
-            <div style={styles.cardIcon}>📋</div>
-            Verificar proceso completo
-          </div>
-          <p style={{ fontSize: 12, color: theme.muted, marginBottom: 12 }}>Una línea por paso, formato: <code style={{ color: theme.accent }}>expresión = expresión</code></p>
-          <pre style={styles.pre}>{`2*x + 4 = 10\n2*x = 10 - 4\n2*x = 6\nx = 3`}</pre>
-          <label style={styles.label}>Proceso</label>
-          <textarea style={styles.textarea} value={proceso} onChange={e => setProceso(e.target.value)} placeholder={"2*x + 4 = 10\n2*x = 10 - 4\n2*x = 6\nx = 3"} />
-          <label style={styles.label}>Incógnita</label>
-          <input style={styles.input} value={incognitaProceso} onChange={e => setIncognitaProceso(e.target.value)} placeholder="ej: x" />
-          <button style={styles.btn(theme.accent)} onClick={verificarProceso}>Verificar proceso</button>
-
-          {resultadoProceso && (
-            <div style={{ marginTop: 16 }}>
-              <div style={styles.resultBox(resultadoProceso.todos_correctos)}>
-                <p style={{ margin: 0, fontWeight: "bold", fontSize: 15, color: resultadoProceso.todos_correctos ? theme.success : theme.error }}>{resultadoProceso.resumen}</p>
-                {resultadoProceso.soluciones_finales && resultadoProceso.soluciones_finales.length > 0 && (
-                  <p style={{ margin: "8px 0 0", fontSize: 13 }}>Solución: <InlineMath math={`${incognitaProceso} = ${resultadoProceso.soluciones_finales[0]}`} /></p>
-                )}
+            <label style={styles.label}>Lado izquierdo</label>
+            <input style={styles.input} value={izquierda} onChange={e => setIzquierda(e.target.value)} placeholder="ej: log(100, 10)" />
+            <label style={styles.label}>Lado derecho</label>
+            <input style={styles.input} value={derecha} onChange={e => setDerecha(e.target.value)} placeholder="ej: 2" />
+            <button style={styles.btn(theme.accent)} onClick={verificar}>Verificar</button>
+            {resultado && (
+              <div style={styles.resultBox(resultado.correcto)}>
+                <p style={{ margin: 0, fontWeight: "bold", color: resultado.correcto ? theme.success : theme.error }}>{resultado.mensaje}</p>
+                {resultado.resultado_izquierda && <p style={{ margin: "8px 0 0", fontSize: 13 }}>Izquierdo: <InlineMath math={resultado.resultado_izquierda} /></p>}
+                {resultado.resultado_derecha && <p style={{ margin: "4px 0 0", fontSize: 13 }}>Derecho: <InlineMath math={resultado.resultado_derecha} /></p>}
+                {resultado.diferencia && <p style={{ margin: "4px 0 0", fontSize: 13, color: theme.error }}>Diferencia: <InlineMath math={resultado.diferencia} /></p>}
               </div>
-              <div style={{ marginTop: 12 }}>
-                {resultadoProceso.resultados && resultadoProceso.resultados.map((r, i) => (
-                  <div key={i} style={styles.stepBox(r.correcto)}>
-                    <p style={{ margin: 0, fontSize: 13, fontWeight: "600", color: r.correcto ? theme.success : theme.error }}>
-                      Paso {r.paso}: <span style={{ color: theme.text }}>{r.linea}</span>
-                    </p>
-                    <p style={{ margin: "4px 0 0", fontSize: 12, color: theme.muted }}>{r.mensaje}</p>
-                    {r.detalle && <p style={{ margin: "4px 0 0", fontSize: 12, color: theme.error }}>💡 {r.detalle}</p>}
+            )}
+          </div>
+
+          {/* RESOLVER */}
+          <div style={styles.card}>
+            <div style={styles.cardTitle}>
+              <div style={styles.cardIcon}>🔍</div>
+              Resolver incógnita
+            </div>
+            <label style={styles.label}>Ecuación igualada a 0</label>
+            <input style={styles.input} value={ecuacion} onChange={e => setEcuacion(e.target.value)} placeholder="ej: x**2 - 4" />
+            <label style={styles.label}>Incógnita</label>
+            <input style={styles.input} value={incognita} onChange={e => setIncognita(e.target.value)} placeholder="ej: x" />
+            <button style={styles.btn(theme.accentLight)} onClick={resolver}>Resolver</button>
+            {solucion && (
+              <div style={styles.resultBox(solucion.exito)}>
+                <p style={{ margin: 0, fontWeight: "bold", color: solucion.exito ? theme.success : theme.error }}>{solucion.mensaje}</p>
+                {solucion.soluciones && solucion.soluciones.map((s, i) => (
+                  <p key={i} style={{ margin: "8px 0 0", fontSize: 13 }}>{incognita} = <InlineMath math={s} /></p>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* PROCESO */}
+          <div style={styles.card}>
+            <div style={styles.cardTitle}>
+              <div style={styles.cardIcon}>📋</div>
+              Verificar proceso completo
+            </div>
+            <p style={{ fontSize: 12, color: theme.muted, marginBottom: 12 }}>Una línea por paso, formato: <code style={{ color: theme.accent }}>expresión = expresión</code></p>
+            <pre style={styles.pre}>{`2*x + 4 = 10\n2*x = 10 - 4\n2*x = 6\nx = 3`}</pre>
+            <label style={styles.label}>Proceso</label>
+            <textarea style={styles.textarea} value={proceso} onChange={e => setProceso(e.target.value)} placeholder={"2*x + 4 = 10\n2*x = 10 - 4\n2*x = 6\nx = 3"} />
+            <label style={styles.label}>Incógnita</label>
+            <input style={styles.input} value={incognitaProceso} onChange={e => setIncognitaProceso(e.target.value)} placeholder="ej: x" />
+            <button style={styles.btn(theme.accent)} onClick={verificarProceso}>Verificar proceso</button>
+
+            {resultadoProceso && (
+              <div style={{ marginTop: 16 }}>
+                <div style={styles.resultBox(resultadoProceso.todos_correctos)}>
+                  <p style={{ margin: 0, fontWeight: "bold", fontSize: 15, color: resultadoProceso.todos_correctos ? theme.success : theme.error }}>{resultadoProceso.resumen}</p>
+                  {resultadoProceso.soluciones_finales && resultadoProceso.soluciones_finales.length > 0 && (
+                    <p style={{ margin: "8px 0 0", fontSize: 13 }}>Solución: <InlineMath math={`${incognitaProceso} = ${resultadoProceso.soluciones_finales[0]}`} /></p>
+                  )}
+                </div>
+                <div style={{ marginTop: 12 }}>
+                  {resultadoProceso.resultados && resultadoProceso.resultados.map((r, i) => (
+                    <div key={i} style={styles.stepBox(r.correcto)}>
+                      <p style={{ margin: 0, fontSize: 13, fontWeight: "600", color: r.correcto ? theme.success : theme.error }}>
+                        Paso {r.paso}: <span style={{ color: theme.text }}>{r.linea}</span>
+                      </p>
+                      <p style={{ margin: "4px 0 0", fontSize: 12, color: theme.muted }}>{r.mensaje}</p>
+                      {r.detalle && <p style={{ margin: "4px 0 0", fontSize: 12, color: theme.error }}>💡 {r.detalle}</p>}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+        </div>
+
+        {/* COLUMNA LATERAL */}
+        <div style={{ width: 260, flexShrink: 0 }}>
+          <div style={{ backgroundColor: theme.surface, border: `1.5px solid ${theme.border}`, borderRadius: 16, padding: 20, boxShadow: "0 2px 12px rgba(0,0,0,0.06)", position: "sticky", top: 24 }}>
+            <div style={{ fontSize: 14, fontWeight: "800", color: theme.accent, marginBottom: 16, paddingBottom: 10, borderBottom: `1px solid ${theme.border}` }}>📖 Referencia de símbolos</div>
+            {simbolos.map((seccion, i) => (
+              <div key={i} style={{ marginBottom: 14 }}>
+                <div style={{ fontSize: 11, fontWeight: "700", color: theme.muted, textTransform: "uppercase", letterSpacing: "0.8px", marginBottom: 8 }}>{seccion.seccion}</div>
+                {seccion.items.map((item, j) => (
+                  <div key={j} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
+                    <code style={{ backgroundColor: "#fff3e0", color: theme.accent, padding: "2px 7px", borderRadius: 5, fontFamily: "monospace", fontSize: 12, fontWeight: "600" }}>{item.codigo}</code>
+                    <span style={{ color: theme.muted, fontSize: 12 }}>{item.desc}</span>
                   </div>
                 ))}
               </div>
-            </div>
-          )}
+            ))}
+          </div>
         </div>
 
       </div>

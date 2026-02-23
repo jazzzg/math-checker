@@ -14,7 +14,7 @@ const theme = {
   text: "#3d2000",
   muted: "#8a6a40",
   error: "#c0392b",
-  success: "#4a7c00",
+  success: "#8a5c2a",
 };
 
 const styles = {
@@ -160,15 +160,15 @@ const styles = {
     marginTop: 16,
     padding: 16,
     borderRadius: 12,
-    backgroundColor: ok ? "#f0f7e0" : "#fdf0e0",
-    border: `1.5px solid ${ok ? "#8aaa40" : theme.border}`,
+    backgroundColor: ok ? "#d4b896" : "#fdf0e0",
+    border: `1.5px solid ${ok ? "#8a5c2a" : theme.border}`,
   }),
   stepBox: (ok) => ({
     padding: "12px 16px",
     borderRadius: 10,
     marginBottom: 8,
-    backgroundColor: ok ? "#f0f7e0" : "#fdf0e0",
-    borderLeft: `4px solid ${ok ? theme.success : theme.accent}`,
+    backgroundColor: ok ? "#d4b896" : "#fdf0e0",
+    borderLeft: `4px solid ${ok ? "#8a5c2a" : theme.accent}`,
   }),
   pre: {
     backgroundColor: theme.bg,
@@ -181,6 +181,55 @@ const styles = {
     fontFamily: "'Georgia', serif",
   }
 };
+
+const simbolos = [
+  {
+    seccion: "Operaciones básicas",
+    items: [
+      { codigo: "x + y", desc: "Suma" },
+      { codigo: "x - y", desc: "Resta" },
+      { codigo: "x * y", desc: "Multiplicación" },
+      { codigo: "x / y", desc: "División" },
+      { codigo: "x**2", desc: "Potencia (x²)" },
+      { codigo: "x**n", desc: "Potencia n-ésima" },
+    ]
+  },
+  {
+    seccion: "Raíces",
+    items: [
+      { codigo: "sqrt(x)", desc: "Raíz cuadrada (√x)" },
+      { codigo: "root(x, 3)", desc: "Raíz cúbica (∛x)" },
+      { codigo: "root(x, n)", desc: "Raíz n-ésima" },
+    ]
+  },
+  {
+    seccion: "Logaritmos",
+    items: [
+      { codigo: "log(x)", desc: "Logaritmo natural" },
+      { codigo: "log(x, 10)", desc: "Log base 10" },
+      { codigo: "log(x, 2)", desc: "Log base 2" },
+    ]
+  },
+  {
+    seccion: "Trigonometría",
+    items: [
+      { codigo: "sin(x)", desc: "Seno" },
+      { codigo: "cos(x)", desc: "Coseno" },
+      { codigo: "tan(x)", desc: "Tangente" },
+      { codigo: "pi", desc: "π = 3.14159..." },
+      { codigo: "E", desc: "e = 2.71828..." },
+    ]
+  },
+  {
+    seccion: "Otros",
+    items: [
+      { codigo: "abs(x)", desc: "Valor absoluto" },
+      { codigo: "factorial(n)", desc: "Factorial" },
+      { codigo: "oo", desc: "Infinito" },
+    ]
+  },
+];
+
 
 export default function App() {
   const [izquierda, setIzquierda] = useState("");

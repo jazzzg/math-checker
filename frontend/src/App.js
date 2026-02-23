@@ -6,15 +6,15 @@ import "katex/dist/katex.min.css";
 const API = "https://math-checker-backend.onrender.com";
 
 const theme = {
-  bg: "#1a0f00",
-  surface: "#2a1a00",
-  border: "#4a3010",
-  accent: "#f5c842",
-  accentDark: "#c49a1a",
-  text: "#f2e0c0",
-  muted: "#a07840",
-  error: "#e06020",
-  success: "#c8a020",
+  bg: "#FFDEAD",
+  surface: "#f5c898",
+  border: "#B5927F",
+  accent: "#DC6601",
+  accentDark: "#b85200",
+  text: "#873600",
+  muted: "#B5927F",
+  error: "#873600",
+  success: "#5a6e00",
 };
 
 const styles = {
@@ -42,7 +42,7 @@ const styles = {
     justifyContent: "center",
     fontSize: 20,
     fontWeight: "bold",
-    color: "#000",
+    color: "#fff",
   },
   title: {
     fontSize: 22,
@@ -102,7 +102,6 @@ const styles = {
     marginBottom: 16,
     boxSizing: "border-box",
     outline: "none",
-    transition: "border-color 0.2s",
   },
   textarea: {
     display: "block",
@@ -123,7 +122,7 @@ const styles = {
   btn: (color) => ({
     padding: "10px 22px",
     backgroundColor: color,
-    color: color === theme.accent ? "#000" : "#fff",
+    color: "#fff",
     border: "none",
     borderRadius: 8,
     fontSize: 12,
@@ -137,15 +136,15 @@ const styles = {
     marginTop: 16,
     padding: 16,
     borderRadius: 8,
-    backgroundColor: ok ? "#1a2a00" : "#2a1000",
-    border: `1px solid ${ok ? "#3a5a00" : "#5a2000"}`,
+    backgroundColor: ok ? "#e8f0c0" : "#f5d5b0",
+    border: `1px solid ${ok ? "#8a9a20" : theme.border}`,
   }),
   stepBox: (ok) => ({
     padding: "12px 16px",
     borderRadius: 8,
     marginBottom: 8,
-    backgroundColor: ok ? "#1a2a00" : "#2a1000",
-    borderLeft: `3px solid ${ok ? theme.success : theme.error}`,
+    backgroundColor: ok ? "#e8f0c0" : "#f5d5b0",
+    borderLeft: `3px solid ${ok ? "#5a6e00" : theme.accent}`,
   }),
   pre: {
     backgroundColor: theme.bg,
@@ -204,7 +203,6 @@ export default function App() {
 
   return (
     <div style={styles.app}>
-      {/* HEADER */}
       <div style={styles.header}>
         <div style={styles.logo}>∑</div>
         <div>
@@ -215,11 +213,8 @@ export default function App() {
 
       <div style={styles.main}>
 
-        {/* VERIFICAR */}
         <div style={styles.card}>
-          <div style={styles.cardTitle}>
-            <span style={{ color: theme.accent }}>01</span> Verificar ecuación
-          </div>
+          <div style={styles.cardTitle}><span>01</span> Verificar ecuación</div>
           <label style={styles.label}>Lado izquierdo</label>
           <input style={styles.input} value={izquierda} onChange={e => setIzquierda(e.target.value)} placeholder="ej: log(100, 10)" />
           <label style={styles.label}>Lado derecho</label>
@@ -227,59 +222,53 @@ export default function App() {
           <button style={styles.btn(theme.accent)} onClick={verificar}>Verificar</button>
           {resultado && (
             <div style={styles.resultBox(resultado.correcto)}>
-              <p style={{ margin: 0, fontWeight: "bold", color: resultado.correcto ? theme.success : theme.error }}>{resultado.mensaje}</p>
-              {resultado.resultado_izquierda && <p style={{ margin: "8px 0 0", fontSize: 13, color: theme.muted }}>Izquierdo: <InlineMath math={resultado.resultado_izquierda} /></p>}
-              {resultado.resultado_derecha && <p style={{ margin: "4px 0 0", fontSize: 13, color: theme.muted }}>Derecho: <InlineMath math={resultado.resultado_derecha} /></p>}
+              <p style={{ margin: 0, fontWeight: "bold", color: resultado.correcto ? "#5a6e00" : theme.error }}>{resultado.mensaje}</p>
+              {resultado.resultado_izquierda && <p style={{ margin: "8px 0 0", fontSize: 13 }}>Izquierdo: <InlineMath math={resultado.resultado_izquierda} /></p>}
+              {resultado.resultado_derecha && <p style={{ margin: "4px 0 0", fontSize: 13 }}>Derecho: <InlineMath math={resultado.resultado_derecha} /></p>}
               {resultado.diferencia && <p style={{ margin: "4px 0 0", fontSize: 13, color: theme.error }}>Diferencia: <InlineMath math={resultado.diferencia} /></p>}
             </div>
           )}
         </div>
 
-        {/* RESOLVER */}
         <div style={styles.card}>
-          <div style={styles.cardTitle}>
-            <span style={{ color: theme.accent }}>02</span> Resolver incógnita
-          </div>
+          <div style={styles.cardTitle}><span>02</span> Resolver incógnita</div>
           <label style={styles.label}>Ecuación igualada a 0</label>
           <input style={styles.input} value={ecuacion} onChange={e => setEcuacion(e.target.value)} placeholder="ej: x**2 - 4" />
           <label style={styles.label}>Incógnita</label>
           <input style={styles.input} value={incognita} onChange={e => setIncognita(e.target.value)} placeholder="ej: x" />
-          <button style={styles.btn("#c45e10")} onClick={resolver}>Resolver</button>
+          <button style={styles.btn(theme.text)} onClick={resolver}>Resolver</button>
           {solucion && (
             <div style={styles.resultBox(solucion.exito)}>
-              <p style={{ margin: 0, fontWeight: "bold", color: solucion.exito ? theme.success : theme.error }}>{solucion.mensaje}</p>
+              <p style={{ margin: 0, fontWeight: "bold", color: solucion.exito ? "#5a6e00" : theme.error }}>{solucion.mensaje}</p>
               {solucion.soluciones && solucion.soluciones.map((s, i) => (
-                <p key={i} style={{ margin: "8px 0 0", fontSize: 13, color: theme.muted }}>{incognita} = <InlineMath math={s} /></p>
+                <p key={i} style={{ margin: "8px 0 0", fontSize: 13 }}>{incognita} = <InlineMath math={s} /></p>
               ))}
             </div>
           )}
         </div>
 
-        {/* PROCESO */}
         <div style={styles.card}>
-          <div style={styles.cardTitle}>
-            <span style={{ color: theme.accent }}>03</span> Verificar proceso completo
-          </div>
+          <div style={styles.cardTitle}><span>03</span> Verificar proceso completo</div>
           <p style={{ fontSize: 12, color: theme.muted, marginBottom: 12 }}>Una línea por paso, formato: <code style={{ color: theme.accent }}>expresión = expresión</code></p>
           <pre style={styles.pre}>{`2*x + 4 = 10\n2*x = 10 - 4\n2*x = 6\nx = 3`}</pre>
           <label style={styles.label}>Proceso</label>
           <textarea style={styles.textarea} value={proceso} onChange={e => setProceso(e.target.value)} placeholder={"2*x + 4 = 10\n2*x = 10 - 4\n2*x = 6\nx = 3"} />
           <label style={styles.label}>Incógnita</label>
           <input style={styles.input} value={incognitaProceso} onChange={e => setIncognitaProceso(e.target.value)} placeholder="ej: x" />
-          <button style={styles.btn(theme.error)} onClick={verificarProceso}>Verificar proceso</button>
+          <button style={styles.btn(theme.accent)} onClick={verificarProceso}>Verificar proceso</button>
 
           {resultadoProceso && (
             <div style={{ marginTop: 16 }}>
               <div style={styles.resultBox(resultadoProceso.todos_correctos)}>
-                <p style={{ margin: 0, fontWeight: "bold", fontSize: 15, color: resultadoProceso.todos_correctos ? theme.success : theme.error }}>{resultadoProceso.resumen}</p>
+                <p style={{ margin: 0, fontWeight: "bold", fontSize: 15, color: resultadoProceso.todos_correctos ? "#5a6e00" : theme.error }}>{resultadoProceso.resumen}</p>
                 {resultadoProceso.soluciones_finales && resultadoProceso.soluciones_finales.length > 0 && (
-                  <p style={{ margin: "8px 0 0", fontSize: 13, color: theme.muted }}>Solución: <InlineMath math={`${incognitaProceso} = ${resultadoProceso.soluciones_finales[0]}`} /></p>
+                  <p style={{ margin: "8px 0 0", fontSize: 13 }}>Solución: <InlineMath math={`${incognitaProceso} = ${resultadoProceso.soluciones_finales[0]}`} /></p>
                 )}
               </div>
               <div style={{ marginTop: 12 }}>
                 {resultadoProceso.resultados && resultadoProceso.resultados.map((r, i) => (
                   <div key={i} style={styles.stepBox(r.correcto)}>
-                    <p style={{ margin: 0, fontSize: 13, fontWeight: "600", color: r.correcto ? theme.success : theme.error }}>
+                    <p style={{ margin: 0, fontSize: 13, fontWeight: "600", color: r.correcto ? "#5a6e00" : theme.error }}>
                       Paso {r.paso}: <span style={{ color: theme.text }}>{r.linea}</span>
                     </p>
                     <p style={{ margin: "4px 0 0", fontSize: 12, color: theme.muted }}>{r.mensaje}</p>

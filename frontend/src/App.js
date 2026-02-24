@@ -253,6 +253,9 @@ export default function App() {
   const [variableTransf, setVariableTransf] = useState("x");
   const [transfResult, setTransfResult] = useState(null);
 
+  const [funcionesGrafico, setFuncionesGrafico] = useState ([]);
+  const [nuevaFuncion, setNuevaFuncion] = useState ("")
+
   const verificar = async () => {
     try {
       const res = await axios.post(`${API}/verificar`, { izquierda, derecha });
@@ -300,6 +303,18 @@ export default function App() {
       setTransfResult({ mensaje: "⚠️ Error al conectar con el servidor" });
     }
   };
+
+  const agregarFuncionesGrafico = () => {
+    if (nuevaFuncion.trim()) {
+      setFuncionesGrafico([...funcionesGrafico, nuevaFuncion.trim()]);
+      setNuevaFuncion("");
+    }
+  };
+
+  const eliminarfuncionGrafico = (index) => {
+    setFuncionesGrafico(funcionesGrafico.filter((_, i) => i !==index));
+  };
+
 
   return (
     <div style={styles.app}>
@@ -454,6 +469,51 @@ export default function App() {
                   <p style={{ margin: "8px 0 0", fontSize: 13 }}>Resultado: <InlineMath math={transfResult.resultado} /></p>
                 )}
               </div>
+            )}
+          </div>
+
+          {/* GRAFICADOR */}
+          <div style={styles.card}>
+            <div style={styles.cardTitle}>
+              <div style={styles.cardIcon}>📈</div>
+              Graficador de funciones
+            </div>
+            <p style={{ fontSize: 12, color: theme.muted, marginBottom: 12, fontWeight: "600" }}>
+              Ingresá funciones para graficar. Usá la sintaxis de GeoGebra: <code style={{ color: theme.accent }}>x^2 + 2</code>, <code style={{ color: theme.accent }}>sqrt(x)</code>
+            </p>
+            <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
+              <input
+                style={{ ...styles.input, marginBottom: 0, flex: 1 }}
+                value={nuevaFuncion}
+                onChange={e => setNuevaFuncion(e.target.value)}
+                onKeyDown={e => e.key === "Enter" && agregarFuncionGrafico()}
+                placeholder="ej: x^2 + 2"
+              />
+              <button style={styles.btn(theme.accent)} onClick={agregarFuncionGrafico}>Agregar</button>
+            </div>
+            {funcionesGrafico.length > 0 && (
+              <div style={{ marginBottom: 12 }}>
+                {funcionesGrafico.map((f, i) => (
+                  <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "6px 10px", backgroundColor: theme.bg, borderRadius: 6, marginBottom: 4, border: `1px solid ${theme.border}` }}>
+                    <code style={{ color: theme.accent, fontSize: 13 }}>{f}</code>
+                    <button onClick={() => eliminarFuncionGrafico(i)} style={{ background: "none", border: "none", color: theme.error, cursor: "pointer", fontSize: 16 }}>✕</button>
+                  </div>
+                ))}
+              </div>
+            )}
+            <div style={{ borderRadius: 12, overflow: "hidden", border: `1.5px solid ${theme.border}` }}>
+              <iframe
+                src={`https://www.geogebra.org/graphing?lang=es`}
+                width="100%"
+                height="500px"
+                style={{ border: "none", display: "block" }}
+                title="GeoGebra Graficador"
+              />
+            </div>
+            {funcionesGrafico.length > 0 && (
+              <p style={{ fontSize: 11, color: theme.muted, marginTop: 8 }}>
+                💡 Ingresá estas funciones directamente en GeoGebra: {funcionesGrafico.join(", ")}
+              </p>
             )}
           </div>
 

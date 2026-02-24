@@ -214,17 +214,42 @@ def inversa(data: Funcion):
         x = symbols(data.variable)
         y = symbols("y")
         f = sympify(data.funcion)
+        
+        pasos = []
+        
+        # Paso 1: escribir la función original
+        pasos.append(f"Función original: f(x) = {f}")
+        
+        # Paso 2: reemplazar f(x) por y
+        pasos.append(f"Reemplazamos f(x) por y: y = {f}")
+        
+        # Paso 3: despejar x
+        pasos.append(f"Despejamos x en función de y...")
         soluciones = solve(f - y, x)
+        
         if not soluciones:
             return {"exito": False, "mensaje": "⚠️ No se pudo encontrar la inversa"}
+        
+        # Paso 4: renombrar y por x
+        pasos.append(f"Despejando x obtenemos: x = {soluciones[0]}")
+        pasos.append(f"Renombramos y → x para obtener la inversa:")
+        
+        inversas_finales = []
+        for s in soluciones:
+            inversa_final = s.subs(y, x)
+            inversas_finales.append(str(inversa_final))
+            pasos.append(f"f⁻¹(x) = {inversa_final}")
+        
         return {
             "exito": True,
             "mensaje": "✔︎ Inversa encontrada",
-            "inversas": [str(s) for s in soluciones],
-            "funcion_original": str(f)
+            "inversas": inversas_finales,
+            "funcion_original": str(f),
+            "pasos": pasos
         }
     except SympifyError:
         return {"exito": False, "mensaje": "⚠️ La expresión ingresada no es válida"}
+
 
 @app.post("/transformar")
 def transformar(data: Transformacion):

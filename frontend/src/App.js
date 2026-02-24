@@ -417,8 +417,17 @@ export default function App() {
             {inversaResult && (
               <div style={styles.resultBox(inversaResult.exito)}>
                 <p style={{ margin: 0, fontWeight: "bold", color: inversaResult.exito ? theme.success : theme.error }}>{inversaResult.mensaje}</p>
+                {inversaResult.pasos && (
+                  <div style={{ marginTop: 12 }}>
+                    {inversaResult.pasos.map((paso, i) => (
+                      <div key={i} style={{ padding: "6px 10px", borderLeft: `3px solid ${theme.accent}`, marginBottom: 6, backgroundColor: theme.bg, borderRadius: 4 }}>
+                        <p style={{ margin: 0, fontSize: 13, color: theme.text }}>{paso}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
                 {inversaResult.inversas && inversaResult.inversas.map((inv, i) => (
-                  <p key={i} style={{ margin: "8px 0 0", fontSize: 13 }}>f⁻¹(x) = <InlineMath math={inv} /></p>
+                  <p key={i} style={{ margin: "8px 0 0", fontSize: 14, fontWeight: "bold", color: theme.accent }}>f⁻¹(x) = <InlineMath math={inv} /></p>
                 ))}
               </div>
             )}

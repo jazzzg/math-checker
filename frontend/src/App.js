@@ -313,8 +313,8 @@ export default function App() {
 
   const eliminarfuncionGrafico = (index) => {
     setFuncionesGrafico(funcionesGrafico.filter((_, i) => i !==index));
+  
   };
-}
 
 
   return (
@@ -541,3 +541,4 @@ export default function App() {
       </div>
     </div>
   );
+}

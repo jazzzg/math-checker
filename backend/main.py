@@ -24,6 +24,15 @@ class Proceso(BaseModel):
     pasos: str
     incognita: str
 
+class Funcion(BaseModel):
+    funcion: str
+    variable: str = "x"
+
+class Transformacion(BaseModel):
+    funcion: str
+    transformacion: str
+    variable: str = "x"
+
 def parsear_paso(paso: str):
     if "=" in paso:
         partes = paso.split("=")
@@ -37,7 +46,6 @@ def verificar(expr: Expresion):
         izq = sympify(expr.izquierda)
         der = sympify(expr.derecha)
         diferencia = simplify(izq - der)
-        
         if diferencia == 0:
             return {
                 "correcto": True,
@@ -54,10 +62,7 @@ def verificar(expr: Expresion):
                 "diferencia": str(diferencia)
             }
     except SympifyError:
-        return {
-            "correcto": False,
-            "mensaje": "⚠️ La expresión ingresada no es válida"
-        }
+        return {"correcto": False, "mensaje": "⚠️ La expresión ingresada no es válida"}
 
 @app.post("/resolver")
 def resolver(data: Ecuacion):
@@ -65,59 +70,42 @@ def resolver(data: Ecuacion):
         incognita = symbols(data.incognita)
         ecuacion = sympify(data.ecuacion)
         soluciones = solve(ecuacion, incognita)
-
         if not soluciones:
-            return {
-                "exito": False,
-                "mensaje": "⚠️ No se encontraron soluciones"
-            }
-
+            return {"exito": False, "mensaje": "⚠️ No se encontraron soluciones"}
         return {
             "exito": True,
             "mensaje": "✔︎ Solución encontrada",
             "soluciones": [str(s) for s in soluciones]
         }
     except SympifyError:
-        return {
-            "exito": False,
-            "mensaje": "⚠️ La expresión ingresada no es válida"
-        }
-
+        return {"exito": False, "mensaje": "⚠️ La expresión ingresada no es válida"}
 
 @app.post("/verificar-proceso")
 def verificar_proceso(data: Proceso):
     lineas = [l.strip() for l in data.pasos.strip().split("\n") if l.strip()]
     incognita = symbols(data.incognita)
     resultados = []
-    primer_error = None  # índice del primer paso con error
+    primer_error = None
 
     for i, linea in enumerate(lineas):
         izq_str, der_str = parsear_paso(linea)
 
         if izq_str is None:
             resultados.append({
-                "paso": i + 1,
-                "linea": linea,
-                "correcto": False,
+                "paso": i + 1, "linea": linea, "correcto": False,
                 "mensaje": "⚠️ Formato inválido, usá 'expresión = expresión'",
-                "detalle": "",
-                "izq_str": "",
-                "der_str": ""
+                "detalle": "", "izq_str": "", "der_str": ""
             })
             if primer_error is None:
                 primer_error = i
             continue
 
-        # Si ya hubo un error antes, marcar este paso como no verificable
         if primer_error is not None:
             resultados.append({
-                "paso": i + 1,
-                "linea": linea,
-                "correcto": False,
+                "paso": i + 1, "linea": linea, "correcto": False,
                 "mensaje": "⚠️ No se puede verificar este paso porque hay un error anterior",
                 "detalle": f"Corregí el paso {primer_error + 1} primero.",
-                "izq_str": izq_str if izq_str else "",
-                "der_str": der_str if der_str else ""
+                "izq_str": izq_str, "der_str": der_str
             })
             continue
 
@@ -132,7 +120,6 @@ def verificar_proceso(data: Proceso):
             else:
                 izq_ant = sympify(resultados[i-1]["izq_str"])
                 der_ant = sympify(resultados[i-1]["der_str"])
-
                 eq_anterior = izq_ant - der_ant
                 eq_actual = izq - der
 
@@ -151,11 +138,9 @@ def verificar_proceso(data: Proceso):
                         detalle = ""
                     else:
                         mensaje = "❌ Este paso tiene un error"
-
                         if sols_ant and sols_act:
                             vals_ant = ", ".join(str(s) for s in sols_ant)
                             vals_act = ", ".join(str(s) for s in sols_act)
-                            # Evaluar numéricamente el lado derecho del paso anterior
                             try:
                                 valor_correcto = sympify(resultados[i-1]["der_str"])
                                 valor_ingresado = sympify(der_str)
@@ -165,7 +150,6 @@ def verificar_proceso(data: Proceso):
                         else:
                             diff_izq = simplify(izq - izq_ant)
                             diff_der = simplify(der - der_ant)
-
                             if diff_izq != 0 and diff_der == 0:
                                 detalle = f"El lado izquierdo cambió incorrectamente. Pusiste '{izq}' pero debería ser equivalente a '{izq_ant}'."
                             elif diff_der != 0 and diff_izq == 0:
@@ -179,7 +163,6 @@ def verificar_proceso(data: Proceso):
                                         detalle = "Este paso no es equivalente al anterior. Revisá la operación que aplicaste."
                                 except:
                                     detalle = "Este paso no es equivalente al anterior. Revisá la operación que aplicaste."
-
                 except:
                     paso_correcto = False
                     mensaje = "⚠️ No se pudo verificar este paso"
@@ -189,30 +172,22 @@ def verificar_proceso(data: Proceso):
                 primer_error = i
 
             resultados.append({
-                "paso": i + 1,
-                "linea": linea,
-                "correcto": paso_correcto,
-                "izq_str": izq_str,
-                "der_str": der_str,
-                "mensaje": mensaje,
-                "detalle": detalle
+                "paso": i + 1, "linea": linea, "correcto": paso_correcto,
+                "izq_str": izq_str, "der_str": der_str,
+                "mensaje": mensaje, "detalle": detalle
             })
 
         except SympifyError:
             resultados.append({
-                "paso": i + 1,
-                "linea": linea,
-                "correcto": False,
+                "paso": i + 1, "linea": linea, "correcto": False,
                 "mensaje": "⚠️ Expresión inválida en este paso",
                 "detalle": "Revisá que la sintaxis sea correcta. Usá ** para potencias, * para multiplicación.",
-                "izq_str": "",
-                "der_str": ""
+                "izq_str": "", "der_str": ""
             })
             if primer_error is None:
                 primer_error = i
 
     todos_correctos = all(r["correcto"] for r in resultados)
-
     soluciones = []
     if resultados and primer_error is None:
         ultimo = resultados[-1]
@@ -232,4 +207,38 @@ def verificar_proceso(data: Proceso):
         "resumen": "✔︎ Todo el proceso es correcto" if todos_correctos else "❌ Hay errores en el proceso",
         "soluciones_finales": [str(s) for s in soluciones]
     }
-  
+
+@app.post("/inversa")
+def inversa(data: Funcion):
+    try:
+        x = symbols(data.variable)
+        y = symbols("y")
+        f = sympify(data.funcion)
+        soluciones = solve(f - y, x)
+        if not soluciones:
+            return {"exito": False, "mensaje": "⚠️ No se pudo encontrar la inversa"}
+        return {
+            "exito": True,
+            "mensaje": "✔︎ Inversa encontrada",
+            "inversas": [str(s) for s in soluciones],
+            "funcion_original": str(f)
+        }
+    except SympifyError:
+        return {"exito": False, "mensaje": "⚠️ La expresión ingresada no es válida"}
+
+@app.post("/transformar")
+def transformar(data: Transformacion):
+    try:
+        x = symbols(data.variable)
+        f = sympify(data.funcion)
+        t = sympify(data.transformacion)
+        resultado = simplify(f.subs(x, t))
+        return {
+            "exito": True,
+            "mensaje": "✔︎ Transformación calculada",
+            "funcion_original": str(f),
+            "transformacion": str(t),
+            "resultado": str(resultado)
+        }
+    except SympifyError:
+        return {"exito": False, "mensaje": "⚠️ La expresión ingresada no es válida"}

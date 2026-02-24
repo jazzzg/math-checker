@@ -292,8 +292,7 @@ export default function App() {
         <p style={styles.heroSub}>Ingresá ecuaciones, resolvé incógnitas y verificá procesos paso a paso con detección automática de errores.</p>
       </div>
 
-      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "32px 24px 0", display: "flex", gap: 24, alignItems: "flex-start" }}>
-
+      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "32px 24px 0", display: "flex", gap: 24, alignItems: "flex-start", flexWrap: "wrap" }}>
         {/* COLUMNA PRINCIPAL */}
         <div style={{ flex: 1, minWidth: 0 }}>
 
@@ -345,7 +344,7 @@ export default function App() {
               <div style={styles.cardIcon}>📋</div>
               Verificar proceso completo
             </div>
-            <p style={{ fontSize: 12, color: theme.muted, marginBottom: 12 }}>Una línea por paso, formato: <code style={{ color: theme.accent }}>expresión = expresión</code></p>
+            <p style={{ fontSize: 12, color: theme.muted, marginBottom: 12, fontWeight:"600" }}>Una línea por paso, formato: <code style={{ color: theme.accent }}>expresión = expresión</code></p>
             <pre style={styles.pre}>{`2*x + 4 = 10\n2*x = 10 - 4\n2*x = 6\nx = 3`}</pre>
             <label style={styles.label}>Proceso</label>
             <textarea style={styles.textarea} value={proceso} onChange={e => setProceso(e.target.value)} placeholder={"2*x + 4 = 10\n2*x = 10 - 4\n2*x = 6\nx = 3"} />
@@ -379,7 +378,7 @@ export default function App() {
         </div>
 
         {/* COLUMNA LATERAL */}
-        <div style={{ width: 260, flexShrink: 0 }}>
+        <div style={{ width: 260, flexShrink: 0, minWidth:"100%", maxWidth:260 }}>
           <div style={{ backgroundColor: theme.surface, border: `1.5px solid ${theme.border}`, borderRadius: 16, padding: 20, boxShadow: "0 2px 12px rgba(0,0,0,0.06)", position: "sticky", top: 24 }}>
             <div style={{ fontSize: 14, fontWeight: "800", color: theme.accent, marginBottom: 16, paddingBottom: 10, borderBottom: `1px solid ${theme.border}` }}>📖 Referencia de símbolos</div>
             {simbolos.map((seccion, i) => (

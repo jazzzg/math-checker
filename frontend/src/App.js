@@ -244,6 +244,15 @@ export default function App() {
   const [incognitaProceso, setIncognitaProceso] = useState("x");
   const [resultadoProceso, setResultadoProceso] = useState(null);
 
+  const [funcion, setFuncion] = useState("");
+  const [variableFuncion, setVariableFuncion] = useState("x");
+  const [inversaResult, setInversaResult] = useState(null);
+
+  const [funcionTransf, setFuncionTransf] = useState("");
+  const [transformacion, setTransformacion] = useState("");
+  const [variableTransf, setVariableTransf] = useState("x");
+  const [transfResult, setTransfResult] = useState(null);
+
   const verificar = async () => {
     try {
       const res = await axios.post(`${API}/verificar`, { izquierda, derecha });
@@ -271,6 +280,24 @@ export default function App() {
       setResultadoProceso(res.data);
     } catch {
       setResultadoProceso({ resumen: "⚠️ Error al conectar con el servidor" });
+    }
+  };
+
+  const calcularInversa = async () => {
+    try {
+      const res = await axios.post(`${API}/inversa`, { funcion, variable: variableFuncion });
+      setInversaResult(res.data);
+    } catch {
+      setInversaResult({ mensaje: "⚠️ Error al conectar con el servidor" });
+    }
+  };
+
+  const calcularTransformacion = async () => {
+    try {
+      const res = await axios.post(`${API}/transformar`, { funcion: funcionTransf, transformacion, variable: variableTransf });
+      setTransfResult(res.data);
+    } catch {
+      setTransfResult({ mensaje: "⚠️ Error al conectar con el servidor" });
     }
   };
 
@@ -371,6 +398,52 @@ export default function App() {
                     </div>
                   ))}
                 </div>
+              </div>
+            )}
+          </div>
+
+          {/* INVERSA */}
+          <div style={styles.card}>
+            <div style={styles.cardTitle}>
+              <div style={styles.cardIcon}>🔄</div>
+              Inversa de una función
+            </div>
+            <p style={{ fontSize: 12, color: theme.muted, marginBottom: 12, fontWeight: "600" }}>Ingresá f(x) y calculamos f⁻¹(x). Ej: <code style={{ color: theme.accent }}>(3*x + 4) / 7</code></p>
+            <label style={styles.label}>f(x)</label>
+            <input style={styles.input} value={funcion} onChange={e => setFuncion(e.target.value)} placeholder="ej: (3*x + 4) / 7" />
+            <label style={styles.label}>Variable</label>
+            <input style={styles.input} value={variableFuncion} onChange={e => setVariableFuncion(e.target.value)} placeholder="x" />
+            <button style={styles.btn(theme.accent)} onClick={calcularInversa}>Calcular inversa</button>
+            {inversaResult && (
+              <div style={styles.resultBox(inversaResult.exito)}>
+                <p style={{ margin: 0, fontWeight: "bold", color: inversaResult.exito ? theme.success : theme.error }}>{inversaResult.mensaje}</p>
+                {inversaResult.inversas && inversaResult.inversas.map((inv, i) => (
+                  <p key={i} style={{ margin: "8px 0 0", fontSize: 13 }}>f⁻¹(x) = <InlineMath math={inv} /></p>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* TRANSFORMACIONES */}
+          <div style={styles.card}>
+            <div style={styles.cardTitle}>
+              <div style={styles.cardIcon}>📐</div>
+              Transformaciones de funciones
+            </div>
+            <p style={{ fontSize: 12, color: theme.muted, marginBottom: 12, fontWeight: "600" }}>Ingresá f(x) y la transformación a aplicar. Ej: f(x) = <code style={{ color: theme.accent }}>x**2 + 2</code>, transformación: <code style={{ color: theme.accent }}>3*x</code> → calcula f(3x)</p>
+            <label style={styles.label}>f(x)</label>
+            <input style={styles.input} value={funcionTransf} onChange={e => setFuncionTransf(e.target.value)} placeholder="ej: x**2 + 2" />
+            <label style={styles.label}>Transformación (reemplaza x por)</label>
+            <input style={styles.input} value={transformacion} onChange={e => setTransformacion(e.target.value)} placeholder="ej: 3*x" />
+            <label style={styles.label}>Variable</label>
+            <input style={styles.input} value={variableTransf} onChange={e => setVariableTransf(e.target.value)} placeholder="x" />
+            <button style={styles.btn(theme.accentLight)} onClick={calcularTransformacion}>Calcular transformación</button>
+            {transfResult && (
+              <div style={styles.resultBox(transfResult.exito)}>
+                <p style={{ margin: 0, fontWeight: "bold", color: transfResult.exito ? theme.success : theme.error }}>{transfResult.mensaje}</p>
+                {transfResult.resultado && (
+                  <p style={{ margin: "8px 0 0", fontSize: 13 }}>Resultado: <InlineMath math={transfResult.resultado} /></p>
+                )}
               </div>
             )}
           </div>
